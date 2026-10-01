@@ -9,7 +9,7 @@ wav/guide.wav
 wav/mix.wav
 ```
 
-- `inference.ipynb` — GuideSep
+- `inference_guidesep.ipynb` — GuideSep
 - `inference_banquet.ipynb` — Banquet
 
 ## Installation
@@ -46,16 +46,18 @@ Both notebooks automatically use CUDA when `torch.cuda.is_available()` is `True`
 
 ## GuideSep
 
-Open `inference.ipynb` and run all cells.
+Open `inference_guidesep.ipynb` and run all cells.
 
 Outputs:
 
 ```text
-output/target.wav
-output/residual.wav
+output/target_guidesep.wav
+output/residual_guidesep.wav
 ```
 
-`target.wav` is the source estimated by GuideSep. `residual.wav` is the remainder of the normalized input mixture, computed as `mixture - target`, so the two outputs reconstruct the processed mixture over their common output length.
+`target_guidesep.wav` is the source estimated by GuideSep. `residual_guidesep.wav` is the remainder of the normalized input mixture, computed as `mixture - target`, so the two outputs reconstruct the processed mixture over their common output length.
+
+Running GuideSep again overwrites these same two GuideSep output files.
 
 The first run downloads the official `YutongCooper/GuideSep-v1` checkpoint from Hugging Face and the inference-time model source files pinned to upstream GuideSep commit `f6bcbdee55b56909a6dc4096f8f75fb93b47c202`. Downloaded runtime source is stored under `.runtime/` and is not committed.
 
@@ -72,9 +74,13 @@ Open `inference_banquet.ipynb` and run all cells.
 Outputs:
 
 ```text
-output/banquet_target.wav
-output/banquet_residual.wav
+output/target_banquet.wav
+output/residual_banquet.wav
 ```
+
+`target_banquet.wav` is the source estimated by Banquet. `residual_banquet.wav` is the original mixture minus the Banquet target after output-length/channel alignment.
+
+Running Banquet again overwrites these same two Banquet output files.
 
 Banquet is a query-based music source separation model. The notebook uses `wav/guide.wav` as the query audio and `wav/mix.wav` as the mixture. Unlike GuideSep, the guide does not need to be time-aligned with the mixture. The published inference path uses a 10-second query; shorter guides are tiled and longer guides are truncated by the upstream implementation.
 
@@ -88,12 +94,14 @@ The Banquet model operates internally at 44.1 kHz and uses a stereo model config
 
 Banquet itself requires `torchaudio` for model transforms and PaSST resampling. The notebook replaces only `torchaudio.load` and `torchaudio.save` with `soundfile`-based I/O, so `torchcodec` is not required.
 
+The notebook caches the fixed guide's PaSST embedding so it is not recomputed for every mixture chunk. Chunk size, hop size, model precision, checkpoint, and overlap-add behavior remain unchanged from the published inference path.
+
 The default Banquet inference batch size in the notebook is `4`. If CUDA runs out of memory, reduce `BATCH_SIZE` to `2` or `1`.
 
 Both Banquet outputs are saved as floating-point WAV files, with:
 
 ```text
-banquet_residual = original mixture - banquet_target
+residual_banquet = original mixture - target_banquet
 ```
 
 so target and residual reconstruct the original mixture after output-length/channel alignment.
