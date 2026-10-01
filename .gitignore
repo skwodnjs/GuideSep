@@ -1,0 +1,7 @@
+__pycache__/
+.ipynb_checkpoints/
+.runtime/
+output/*.wav
+wav/*.wav
+!wav/.gitkeep
+!output/.gitkeep
