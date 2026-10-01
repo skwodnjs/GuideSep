@@ -8,3 +8,4 @@ einops_exts
 torchsde
 scipy
 ipython
+ipykernel
