@@ -7,5 +7,6 @@ einops
 einops_exts
 torchsde
 scipy
+omegaconf
 ipython
 ipykernel
