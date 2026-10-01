@@ -1,0 +1,10 @@
+torch>=2.0.0
+torchaudio>=2.0.0
+numpy
+soundfile
+huggingface_hub
+einops
+einops_exts
+torchsde
+scipy
+ipython
