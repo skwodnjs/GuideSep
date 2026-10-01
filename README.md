@@ -47,17 +47,22 @@ wav/mix.wav
 
 2. Open `inference.ipynb` and run all cells.
 
-3. The result is written to:
+3. Two files are written to `output/`:
 
 ```text
-output/output.wav
+output/target.wav
+output/residual.wav
 ```
+
+`target.wav` is the source estimated by GuideSep. `residual.wav` is the remainder of the normalized input mixture, computed as `mixture - target`, so the two outputs reconstruct the processed mixture over their common output length.
 
 The first run downloads the official `YutongCooper/GuideSep-v1` checkpoint from Hugging Face and the inference-time model source files pinned to upstream GuideSep commit `f6bcbdee55b56909a6dc4096f8f75fb93b47c202`. Downloaded runtime source is stored under `.runtime/` and is not committed.
 
 ## Audio I/O
 
 WAV input and output are handled with `soundfile`. If an input file is not already at 16 kHz, it is resampled with `scipy.signal.resample_poly`. `torchaudio` and `torchcodec` are not required.
+
+The two outputs are saved as floating-point WAV files so that `target + residual` is preserved without PCM clipping.
 
 `guide.wav` and `mix.wav` should be time-aligned from the beginning. Stereo or multichannel audio is converted to mono before inference.
 
