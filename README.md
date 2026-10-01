@@ -14,31 +14,9 @@ wav/mix.wav
 
 ## Installation
 
-PyTorch is intentionally not listed in the requirements files because the correct build depends on your platform and compute backend.
+PyTorch, `torchaudio`, and `torchvision` are intentionally not listed in `requirements.txt` because the correct builds depend on your platform and compute backend. Banquet requires all three from the same PyTorch build index; GuideSep itself only requires `torch`.
 
-### GuideSep
-
-For an NVIDIA GPU with CUDA 12.8, install PyTorch first:
-
-```bash
-pip install torch --index-url https://download.pytorch.org/whl/cu128
-```
-
-For CPU-only use:
-
-```bash
-pip install torch --index-url https://download.pytorch.org/whl/cpu
-```
-
-Then install the base dependencies:
-
-```bash
-pip install -r requirements.txt
-```
-
-### Banquet
-
-Banquet internally uses `torchaudio` transforms and PaSST. Install `torch`, `torchaudio`, and `torchvision` from the same PyTorch build index. For CUDA 12.8:
+For an NVIDIA GPU with CUDA 12.8, install the PyTorch stack first:
 
 ```bash
 pip install torch torchaudio torchvision --index-url https://download.pytorch.org/whl/cu128
@@ -50,14 +28,13 @@ For CPU-only use:
 pip install torch torchaudio torchvision --index-url https://download.pytorch.org/whl/cpu
 ```
 
-Then install both the base and Banquet-specific dependencies:
+If you need another CUDA version, use the matching command from the official PyTorch installation selector.
+
+Then install all remaining dependencies for both notebooks:
 
 ```bash
 pip install -r requirements.txt
-pip install -r requirements-banquet.txt
 ```
-
-If you need another CUDA version, use the matching commands from the official PyTorch installation selector.
 
 You can verify CUDA availability with:
 
