@@ -96,7 +96,7 @@ Banquet itself requires `torchaudio` for model transforms and PaSST resampling. 
 
 The notebook caches the fixed guide's PaSST embedding so it is not recomputed for every mixture chunk. Chunk size, hop size, model precision, checkpoint, and overlap-add behavior remain unchanged from the published inference path.
 
-The default Banquet inference batch size in the notebook is `4`. If CUDA runs out of memory, reduce `BATCH_SIZE` to `2` or `1`.
+The default Banquet inference batch size in the notebook is `8`. If CUDA runs out of memory, reduce `BATCH_SIZE` to `4`, `2`, or `1`.
 
 Both Banquet outputs are saved as floating-point WAV files, with:
 
