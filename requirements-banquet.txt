@@ -1,0 +1,6 @@
+pandas
+tqdm
+pytorch-lightning>=2.0,<3
+torchmetrics
+torch-audiomentations
+hear21passt
